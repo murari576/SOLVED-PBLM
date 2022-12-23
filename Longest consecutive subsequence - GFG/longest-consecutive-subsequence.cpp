@@ -13,7 +13,7 @@ class Solution{
     int findLongestConseqSubseq(int arr[], int N)
     {
       int maxi = 0;
-      unordered_set<int> st;
+      set<int> st;
       
       for(int i = 0; i < N; i++){
           
