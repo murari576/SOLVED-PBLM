@@ -33,17 +33,16 @@ class Solution{
                 arr[k++] = b[j++];
                 cnt += n1 - i;
             }
-            else{
+            else
                 arr[k++] = a[i++];
-            }
         }
         
-        while(i < n1){
+        while(i < n1)
             arr[k++] = a[i++];
-        }
-        while(j < n2){
+       
+        while(j < n2)
             arr[k++] = b[j++];
-        }
+       
         return cnt;
     }
     
