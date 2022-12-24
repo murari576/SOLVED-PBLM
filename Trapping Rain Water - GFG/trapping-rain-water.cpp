@@ -19,14 +19,14 @@ class Solution{
               if(leftmaxx < rightmaxx){
               l++;
               leftmaxx = max(leftmaxx, arr[l]);
-              if(leftmaxx-arr[l]>=1)
+              if(leftmaxx-arr[l]>=0)
               res += leftmaxx-arr[l];
               }
               
               else{
                   r--;
                   rightmaxx = max(rightmaxx, arr[r]);
-                  if(rightmaxx - arr[r] >= 1)
+                  if(rightmaxx - arr[r] >= 0)
                   res += rightmaxx - arr[r];
               }
           }
