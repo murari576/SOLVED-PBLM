@@ -45,7 +45,7 @@ class Solution {
         }
         
         for(int i = 0; i < V; i++){
-            if(check[i] == 1)
+            if(pathvis[i] == 0)
             ans.push_back(i);
         }
         return ans;
