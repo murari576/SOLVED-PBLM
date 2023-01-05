@@ -23,7 +23,7 @@ class Solution {
                 int v = it[1];
                 int w = it[2];
                 
-                if(dis[u] != 1e9 && dis[u] + w < dis[v])
+                if(dis[u] != 1e8 && dis[u] + w < dis[v])
                 dis[v] = dis[u] + w;
             }
         }
