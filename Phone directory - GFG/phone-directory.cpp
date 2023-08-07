@@ -21,15 +21,13 @@ public:
         
         for(int i = 0; i < s.length(); i++){
             vector<string> temp;
-            
             for(auto it:mp){
-               if (it.first.substr(0, i+1) == s.substr(0, i+1))
+                if(it.first.substr(0,i+1) == s.substr(0, i+1))
                 temp.push_back(it.first);
             }
-            if(temp.size() == 0){
-                temp.push_back("0");
-            }
-                ans.push_back(temp);
+            if(temp.size() == 0)
+            temp.push_back("0");
+            ans.push_back(temp);
         }
         return ans;
     }
