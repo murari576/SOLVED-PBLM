@@ -13,7 +13,7 @@ class Solution {
         
         while(!q.empty()){
             int node = q.front().first;
-            int parent = q.front().second;
+            int prnt = q.front().second;
             q.pop();
             
             for(auto it:adj[node]){
@@ -21,11 +21,10 @@ class Solution {
                     vis[it] = 1;
                     q.push({it, node});
                 }
-                else if(parent != it){
-                    return true;
-                }
+                
+                else if(prnt != it)
+                return true;
             }
-            
         }
         return false;
     }
@@ -33,8 +32,7 @@ class Solution {
     // Function to detect cycle in an undirected graph.
     bool isCycle(int V, vector<int> adj[]) {
         // Code here
-       int vis[V] = {0};
-        
+        int vis[V] = {0};
         for(int i = 0; i < V; i++){
             if(!vis[i]){
                 bool ans = solve(i, vis, adj);
