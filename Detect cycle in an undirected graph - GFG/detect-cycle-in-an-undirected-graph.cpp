@@ -5,26 +5,16 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
     private:
-    bool solve(int src, int vis[], vector<int> adj[]){
+    bool solve(int src, int prnt, int vis[], vector<int> adj[]){
         vis[src] = 1;
         
-        queue<pair<int, int>> q;
-        q.push({src, -1});
-        
-        while(!q.empty()){
-            int node = q.front().first;
-            int prnt = q.front().second;
-            q.pop();
-            
-            for(auto it:adj[node]){
-                if(!vis[it]){
-                    vis[it] = 1;
-                    q.push({it, node});
-                }
-                
-                else if(prnt != it)
-                return true;
+        for(auto it:adj[src]){
+            if(!vis[it]){
+               if(solve(it, src, vis, adj) == true)
+               return true;
             }
+            else if(it != prnt)
+            return true;
         }
         return false;
     }
@@ -35,8 +25,7 @@ class Solution {
         int vis[V] = {0};
         for(int i = 0; i < V; i++){
             if(!vis[i]){
-                bool ans = solve(i, vis, adj);
-                if(ans)
+                if(solve(i, -1, vis, adj))
                 return true;
             }
         }
