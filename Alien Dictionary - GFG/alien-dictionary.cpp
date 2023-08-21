@@ -9,60 +9,63 @@ using namespace std;
 
 class Solution{
     private:
-    vector<int> toposort(int V, vector<int> adj[]){
-	    vector<int> topo;
-	    queue<int> q;
-	    vector<int> indgr(V, 0);
-	    
-	    for(int i = 0; i < V; i++){
-	        for(auto it:adj[i])
-	        indgr[it]++;
-	    }
-	    
-	    for(int i = 0; i < V; i++){
-	        if(indgr[i] == 0)
-	        q.push(i);
-	    }
-	    
-	    while(!q.empty()){
-	        int node = q.front();
-	        q.pop();
-	        topo.push_back(node);
-	        
-	        for(auto it:adj[node]){
-	            indgr[it]--;
-	            if(indgr[it] == 0)
-	            q.push(it);
-	        }
-	    }
-	    return topo;
+    vector<int> topo(int V, vector<int> adj[]){
+        
+        queue<int> q;
+        vector<int> ans;
+        vector<int> indgr(V, 0);
+        
+        for(int i = 0; i < V; i++){
+            for(auto it:adj[i]){
+                indgr[it]++;
+            }
+        }
+        
+        for(int i = 0; i < V; i++){
+            if(indgr[i] == 0)
+            q.push(i);
+        }
+        
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            ans.push_back(node);
+            
+            for(auto it:adj[node]){
+                indgr[it]--;
+                if(indgr[it] == 0){
+                    q.push(it);
+                }
+            }
+        }
+        return ans;
     }
+    
     public:
     string findOrder(string dict[], int N, int K) {
         //code here
         vector<int> adj[K];
-        
         for(int i = 0; i < N-1; i++){
             string s1 = dict[i];
             string s2 = dict[i+1];
-            
             int size = min(s1.length(), s2.length());
+            
             for(int ptr = 0; ptr < size; ptr++){
                 if(s1[ptr] != s2[ptr]){
-                    adj[s1[ptr] - 'a'].push_back(s2[ptr] - 'a');
+                    adj[s1[ptr] - 'a'].push_back(s2[ptr]-'a');
                     break;
                 }
-             }
             }
-            
-            vector<int> ans = toposort(K, adj);
-            string temp = "";
-            for(auto it: ans){
-                char ch = it+'a';
-                temp += ch;
-            }
-            // cout << temp << endl;
-            return temp;
+        }
+        
+        vector<int> temp = topo(K, adj);
+        string ans = "";
+        
+        for(int i = 0; i < K; i++){
+            char ch = temp[i] + 'a';
+            ans.push_back(ch);
+        }
+        return ans;
     }
 };
 
