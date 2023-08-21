@@ -9,65 +9,60 @@ using namespace std;
 
 class Solution{
     private:
-    
-    	vector<int> topoSort(int V, vector<int> adj[]) 
-	{
-	    int indg[V] = {0};
+    vector<int> toposort(int V, vector<int> adj[]){
+	    vector<int> topo;
 	    queue<int> q;
+	    vector<int> indgr(V, 0);
 	    
 	    for(int i = 0; i < V; i++){
 	        for(auto it:adj[i])
-	        indg[it]++;
+	        indgr[it]++;
 	    }
 	    
 	    for(int i = 0; i < V; i++){
-	        if(indg[i] == 0)
+	        if(indgr[i] == 0)
 	        q.push(i);
 	    }
 	    
-	    vector<int> ans;
-    while(!q.empty()){
-        int node = q.front();
-        q.pop();
-        
-        ans.push_back(node);
-        
-        for(auto it:adj[node]){
-            indg[it]--;
-            
-            if(indg[it] == 0)
-            q.push(it);
-        }
+	    while(!q.empty()){
+	        int node = q.front();
+	        q.pop();
+	        topo.push_back(node);
+	        
+	        for(auto it:adj[node]){
+	            indgr[it]--;
+	            if(indgr[it] == 0)
+	            q.push(it);
+	        }
+	    }
+	    return topo;
     }
-    return ans;
-	    
-	}
-    
     public:
     string findOrder(string dict[], int N, int K) {
         //code here
         vector<int> adj[K];
         
         for(int i = 0; i < N-1; i++){
-           string s1 = dict[i];
-           string s2 = dict[i+1];
-           
-           int len = min(s1.length(), s2.length());
-           
-           for(int j = 0; j < len; j++){
-               if(s1[j] != s2[j]){
-               adj[s1[j] - 'a'].push_back(s2[j] - 'a');
-               break;
-               }
-           }
-        }
-        
-        vector<int> topo ;
-        topo = topoSort(K, adj);
-        string ans = "";
-        for(auto it:topo)
-        ans = ans + char(it+'a');
-        return ans;
+            string s1 = dict[i];
+            string s2 = dict[i+1];
+            
+            int size = min(s1.length(), s2.length());
+            for(int ptr = 0; ptr < size; ptr++){
+                if(s1[ptr] != s2[ptr]){
+                    adj[s1[ptr] - 'a'].push_back(s2[ptr] - 'a');
+                    break;
+                }
+             }
+            }
+            
+            vector<int> ans = toposort(K, adj);
+            string temp = "";
+            for(auto it: ans){
+                char ch = it+'a';
+                temp += ch;
+            }
+            // cout << temp << endl;
+            return temp;
     }
 };
 
