@@ -4,30 +4,31 @@ using namespace std;
 
 // } Driver Code Ends
 class Solution {
-    private:
-    bool solve(int src, int prnt, int vis[], vector<int> adj[]){
+  public:
+    // Function to detect cycle in an undirected graph.
+    bool dfs(int src, int par, vector<int> &vis, vector<int> adj[]){
         vis[src] = 1;
         
         for(auto it:adj[src]){
             if(!vis[it]){
-               if(solve(it, src, vis, adj) == true)
-               return true;
+                if(dfs(it, src, vis, adj))
+                return true;
             }
-            else if(it != prnt)
-            return true;
+            else{
+                if(it != par)
+                return true;
+            }
         }
         return false;
     }
-  public:
-    // Function to detect cycle in an undirected graph.
     bool isCycle(int V, vector<int> adj[]) {
         // Code here
-        int vis[V] = {0};
+        vector<int> vis(V, 0);
+        
         for(int i = 0; i < V; i++){
-            if(!vis[i]){
-                if(solve(i, -1, vis, adj))
-                return true;
-            }
+            if(!vis[i])
+            if(dfs(i, -1, vis, adj))
+            return true;
         }
         return false;
     }
