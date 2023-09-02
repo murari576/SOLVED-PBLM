@@ -4,33 +4,30 @@ using namespace std;
 
 // } Driver Code Ends
 class Solution {
-    private:
-    bool solve(int i, int col, vector<int> adj[], int vis[]){
-        
-       vis[i] = col;
-       
-       for(auto it:adj[i]){
-           if(vis[it] == -1){
-               if(solve(it, !col, adj, vis)== false)
-               return false;
-           }
-           else if(vis[it] == col)
-           return false;
-       }
-       return true;
-        
-    }
 public:
+    bool dfs(int node, vector<int> &vis, int col, vector<int> adj[]){
+        vis[node] = col;
+        
+        for(auto it:adj[node]){
+            if(vis[it] == -1){
+                if(dfs(it, vis, !col, adj))
+                return true;
+            }
+            else if(vis[it] == col)
+                 return true;
+        }
+        return false;
+    }
+    
 	bool isBipartite(int V, vector<int>adj[]){
-	    int vis[V];
-	    for(int i = 0; i < V; i++)
-	    vis[i] = -1;
+	    // Code here
+	    vector<int> vis(V, -1);
+	    vector<int> pathvis(V, 0);
 	    
 	    for(int i = 0; i < V; i++){
-	        if(vis[i] == -1){
-	            if(solve(i, 0, adj, vis) == false)
-	            return false;
-	        }
+	        if(vis[i] == -1)
+	        if(dfs(i, vis, 0, adj))
+	        return false;
 	    }
 	    return true;
 	}
