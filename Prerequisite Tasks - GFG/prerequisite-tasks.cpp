@@ -5,42 +5,39 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
 public:
-	bool isPossible(int N, vector<pair<int, int> >& prerequisites) {
+    bool dfs(int node, vector<int> &vis, vector<int> &pathvis, vector<int> adj[]){
+        vis[node] = 1;
+        pathvis[node] = 1;
+        
+        for(auto it:adj[node]){
+            if(!vis[it]){
+                if(dfs(it, vis, pathvis, adj))
+                return true;
+            }
+            else if(pathvis[it])
+                return true;
+        }
+        pathvis[node] = 0;
+        return false;
+    }
+	bool isPossible(int N,int P, vector<pair<int, int> >& prereq) {
+	    // Code here
+	    
 	    vector<int> adj[N];
 	    
-	    for(auto it:prerequisites){
-	        adj[it.first].push_back(it.second);
+	    for(auto it:prereq){
+	        adj[it.second].push_back(it.first);
 	    }
 	    
-	    int indg[N] = {0};
+	    vector<int> vis(N, 0);
+	    vector<int> pathvis(N, 0);
+	    
 	    for(int i = 0; i < N; i++){
-	    for(auto it:adj[i]){
-	        indg[it]++;
+	        if(!vis[i])
+	        if(dfs(i, vis, pathvis, adj))
+	        return false;
 	    }
-	    }
-	    
-	    
-	    queue<int> q;
-	    for(int i = 0; i < N; i++){
-	        if(indg[i] == 0)
-	        q.push(i);
-	    }
-	    
-	    int cnt = 0;
-	    while(!q.empty()){
-	        int node = q.front();
-	        q.pop();
-	        cnt++;
-	        
-	        for(auto it:adj[node]){
-	            indg[it]--;
-	            if(indg[it] == 0)
-	            q.push(it);
-	        }
-	    }
-	    if(cnt == N)
 	    return true;
-	    return false;
 	}
 };
 
@@ -61,7 +58,7 @@ int main(){
         // string s;
         // cin>>s;
         Solution ob;
-        if (ob.isPossible(N, prerequisites))
+        if (ob.isPossible(N,P, prerequisites))
             cout << "Yes";
         else
             cout << "No";
