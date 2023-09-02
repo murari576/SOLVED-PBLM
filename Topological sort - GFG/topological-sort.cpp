@@ -7,35 +7,35 @@ class Solution
 {
 	public:
 	//Function to return list containing vertices in Topological order. 
+	
+	void solve(int node, vector<int> &vis, stack<int> &st, vector<int> adj[]){
+	    vis[node] = 1;
+	    
+	    for(auto it:adj[node]){
+	        if(!vis[it])
+	        solve(it, vis, st, adj);
+	    }
+	    st.push(node);
+	}
+	
 	vector<int> topoSort(int V, vector<int> adj[]) 
 	{
 	    // code here
-	    vector<int> topo;
-	    queue<int> q;
-	    vector<int> indgr(V, 0);
+	    vector<int> ans;
+	    stack<int> st;
+	    vector<int> vis(V , 0);
+	    
 	    
 	    for(int i = 0; i < V; i++){
-	        for(auto it:adj[i])
-	        indgr[it]++;
+	        if(!vis[i])
+	        solve(i, vis, st, adj);
 	    }
 	    
-	    for(int i = 0; i < V; i++){
-	        if(indgr[i] == 0)
-	        q.push(i);
+	    while(!st.empty()){
+	        ans.push_back(st.top());
+	        st.pop();
 	    }
-	    
-	    while(!q.empty()){
-	        int node = q.front();
-	        q.pop();
-	        topo.push_back(node);
-	        
-	        for(auto it:adj[node]){
-	            indgr[it]--;
-	            if(indgr[it] == 0)
-	            q.push(it);
-	        }
-	    }
-	    return topo;
+	    return ans;
 	}
 };
 
